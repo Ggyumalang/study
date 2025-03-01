@@ -1,10 +1,21 @@
 package com.study.learn_spring;
 
-import java.math.BigDecimal;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@RequiredArgsConstructor
+@Getter
+@ToString
 public class Payment {
 
-    Long orderId;
-    String currency;
-    BigDecimal amount; //12.34
+    private final Long orderId;
+    private final String currency;
+    private final BigDecimal amount;
+    private final BigDecimal exchangeRate;
+    private final BigDecimal convertedAmount;
+    private final LocalDateTime validUntil;
 }
