@@ -23,6 +23,8 @@ public class PaymentService {
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String body = br.lines().collect(Collectors.joining());
 
+            //문자열 (바이트배열) -> 객체로 변환 -> 디시리얼라이즈 (디시리얼라이저)
+            //객체 -> 문자열로 변환 -> 시리얼라이즈 (시리얼라이저)
             ObjectMapper mapper = new ObjectMapper();
             ExchangeRateDate exchangeRateDate = mapper.readValue(body, ExchangeRateDate.class);
             BigDecimal exchangeRate = exchangeRateDate.rates().get("KRW");
@@ -37,10 +39,6 @@ public class PaymentService {
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
-        //금액 계산
-
-        //유효시간 개선
-
     }
 
     public static void main(String[] args) {
