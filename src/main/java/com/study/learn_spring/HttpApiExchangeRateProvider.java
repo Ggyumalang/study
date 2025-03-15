@@ -11,9 +11,9 @@ import java.net.URISyntaxException;
 import java.net.URLConnection;
 import java.util.stream.Collectors;
 
-public class HttpApiPaymentService extends PaymentService {
+public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     @Override
-    protected BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException {
+    public BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException {
         URI uri = new URI("https://open.er-api.com/v6/latest/" + currency);
         URLConnection urlConnection = uri.toURL().openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -25,5 +25,4 @@ public class HttpApiPaymentService extends PaymentService {
         ExchangeRateDate exchangeRateDate = mapper.readValue(body, ExchangeRateDate.class);
         return exchangeRateDate.rates().get("KRW");
     }
-
 }

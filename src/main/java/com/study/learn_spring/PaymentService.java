@@ -1,17 +1,21 @@
 package com.study.learn_spring;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
-public abstract class PaymentService {
+@RequiredArgsConstructor
+public class PaymentService {
+    private final ExchangeRateProvider exchangeRateProvider;
 
     public Payment prepare(Long orderId, String currency, BigDecimal amount) {
         //환율 조회
         try {
             //환율 조회
-            BigDecimal exchangeRate = getExchangeRate(currency);
+            BigDecimal exchangeRate = exchangeRateProvider.getExchangeRate(currency);
 
             //금액 계산
             BigDecimal convertedAmount = exchangeRate.multiply(amount);
@@ -23,13 +27,5 @@ public abstract class PaymentService {
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    protected abstract BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException;
-
-    public static void main(String[] args) {
-        PaymentService paymentService = new HttpApiPaymentService();
-        Payment payment = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
-        System.out.println(">>> payment = " + payment);
     }
 }
