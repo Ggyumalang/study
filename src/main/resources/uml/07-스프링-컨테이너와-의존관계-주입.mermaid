@@ -1,0 +1,36 @@
+classDiagram
+    direction LR
+
+    class Client {
+        + main()
+    }
+
+    class BeanFactory
+
+    class PaymentConfig
+
+    class PaymentService {
+        + prepare()
+    }
+
+    class ExchangeRateProvider {
+        <<interface>>
+        + getExchangeRate()
+    }
+
+    class HttpApiExchangeRateProvider {
+        + getExchangeRate()
+    }
+
+    class SimpleExchangeRateProvider {
+        + getExchangeRate()
+    }
+
+    Client ..> PaymentService: 사용
+    Client ..> BeanFactory: 요청
+    BeanFactory <-- ObjectConfig
+    BeanFactory ..> HttpApiExchangeRateProvider: 생성
+    BeanFactory ..> PaymentService: 생성/전달
+    PaymentService ..> ExchangeRateProvider: 사용
+    ExchangeRateProvider <|.. HttpApiExchangeRateProvider
+    ExchangeRateProvider <|.. SimpleExchangeRateProvider

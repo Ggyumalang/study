@@ -1,0 +1,42 @@
+@startuml
+class Client {
+    + main()
+}
+
+class BeanFactory #pink {
+}
+note left: 스프링 IoC/DI 컨테이너
+
+class PaymentConfig {
+}
+note bottom: 구성정보(Configuration): 빈 클래스, 의존관계
+
+class PaymentService {
+    + prepare()
+}
+
+interface ExchangeRateProvider {
+    + getExchangeRate()
+}
+class HttpApiExchangeRateProvider {
+    + getExchangeRate()
+}
+class SimpleExchangeRateProvider {
+    + getExchangeRate()
+}
+
+note "빈(Bean)" as BEAN
+BEAN .> PaymentService #red;line.dotted
+BEAN .> HttpApiExchangeRateProvider #red;line.dotted
+
+Client .> PaymentService : 사용
+Client ..> BeanFactory : 요청
+BeanFactory <-[#blue]- PaymentConfig
+BeanFactory ..> HttpApiExchangeRateProvider : 생성
+BeanFactory .> PaymentService : 생성/전달
+PaymentService .> ExchangeRateProvider : 사용
+'PaymentService ..> HttpApiExchangeRateProvider #red;line.dotted;text:red : 런타임\n의존관계
+
+ExchangeRateProvider <|.. HttpApiExchangeRateProvider
+ExchangeRateProvider <|.. SimpleExchangeRateProvider
+@enduml
