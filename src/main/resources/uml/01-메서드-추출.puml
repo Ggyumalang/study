@@ -1,0 +1,14 @@
+@startuml
+left to right direction
+
+class PaymentService_ASIS {
+    + prepare()
+}
+
+class PaymentService #pink {
+    + prepare()
+    - getExchangeRate()
+}
+
+PaymentService_ASIS --> PaymentService : 리팩토링
+@enduml

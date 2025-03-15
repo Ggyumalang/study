@@ -1,0 +1,13 @@
+classDiagram
+    direction LR
+
+    class PaymentService_ASIS {
+        + prepare()
+    }
+
+    class PaymentService {
+        + prepare()
+        - getExchangeRate()
+    }
+
+    PaymentService_ASIS --> PaymentService: 리팩토링

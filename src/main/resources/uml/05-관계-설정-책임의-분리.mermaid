@@ -1,0 +1,25 @@
+classDiagram
+    direction LR
+    class Client {
+        + main()
+    }
+    class PaymentService {
+        + prepare()
+    }
+    class ExchangeRateProvider {
+        <<interface>>
+        + getExchangeRate()
+    }
+    class HttpApiTimeZoneProvider {
+        + getExchangeRate()
+    }
+
+    class SimpleTimeZoneProvider {
+        + getExchangeRate()
+    }
+
+    Client ..> HttpApiTimeZoneProvider: 1.생성
+    Client ..> PaymentService: 2.생성,전달,사용
+    PaymentService ..> ExchangeRateProvider: 3.사용
+    ExchangeRateProvider <|.. HttpApiTimeZoneProvider
+    ExchangeRateProvider <|.. SimpleTimeZoneProvider

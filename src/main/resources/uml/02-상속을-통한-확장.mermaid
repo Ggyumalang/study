@@ -1,0 +1,15 @@
+classDiagram
+    class PaymentService {
+        <<abstract>>
+        + add()
+        # getExchangeRate()*
+    }
+    class HttpApiPaymentService {
+        # getExchangeRate()
+    }
+    class SimplePaymentService {
+        # getExchangeRate()
+    }
+
+    PaymentService <|-- HttpApiPaymentService
+    PaymentService <|-- SimplePaymentService

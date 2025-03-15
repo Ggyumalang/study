@@ -1,10 +1,5 @@
 classDiagram
     direction LR
-    class Client {
-        + main()
-    }
-    class ObjectFactory {
-    }
     class PaymentService {
         + prepare()
     }
@@ -20,10 +15,6 @@ classDiagram
         + getExchangeRate()
     }
 
-    Client ..> ObjectFactory: 요청
-    Client ..> PaymentService: 사용
-    ObjectFactory ..> HttpApiExchangeRateProvider: 생성
-    ObjectFactory ..> PaymentService: 생성/전달
-    PaymentService ..> ExchangeRateProvider: 사용
+    PaymentService ..> ExchangeRateProvider
     ExchangeRateProvider <|.. HttpApiExchangeRateProvider
     ExchangeRateProvider <|.. SimpleExchangeRateProvider

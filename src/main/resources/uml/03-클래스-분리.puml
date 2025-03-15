@@ -1,0 +1,16 @@
+@startuml
+class PaymentService {
+    + prepare()
+}
+
+class HttpApiExchangeRateProvider {
+    + <color:blue>getExchangeRate()</color>
+}
+
+class SimpleExchangeRateProvider {
+    + <color:red>getSimpleExchangeRate()</color>
+}
+
+PaymentService ..> HttpApiExchangeRateProvider : 사용
+PaymentService ..> SimpleExchangeRateProvider : 사용
+@enduml

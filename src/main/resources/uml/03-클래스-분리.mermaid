@@ -1,0 +1,13 @@
+classDiagram
+    class PaymentService {
+        + prepare()
+    }
+    class HttpApiExchangeRateProvider {
+        + getExchangeRate()
+    }
+    class SimpleExchangeRateProvider {
+        + getSimpleExchangeRate()
+    }
+
+    PaymentService ..> HttpApiExchangeRateProvider: 사용
+    PaymentService ..> SimpleExchangeRateProvider: 사용

@@ -1,0 +1,18 @@
+@startuml
+class PaymentService {
+    <<abstract>>
+    + prepare()
+    # <color:red>getExchangeRate()</color> {abstract}
+}
+
+class HttpApiPaymentService #pink {
+    # <color:red>getExchangeRate()</color>
+}
+
+class SimplePaymentService #pink {
+    # <color:red>getExchangeRate()</color>
+}
+
+PaymentService <|-- HttpApiPaymentService
+PaymentService <|-- SimplePaymentService
+@enduml
