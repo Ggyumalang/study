@@ -1,33 +1,17 @@
 package com.study.learn_spring;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLConnection;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
-public class PaymentService {
+public abstract class PaymentService {
 
     public Payment prepare(Long orderId, String currency, BigDecimal amount) {
         //환율 조회
-        URI uri;
         try {
-            uri = new URI("https://open.er-api.com/v6/latest/" + currency);
-            URLConnection urlConnection = uri.toURL().openConnection();
-            BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String body = br.lines().collect(Collectors.joining());
-
-            //문자열 (바이트배열) -> 객체로 변환 -> 디시리얼라이즈 (디시리얼라이저)
-            //객체 -> 문자열로 변환 -> 시리얼라이즈 (시리얼라이저)
-            ObjectMapper mapper = new ObjectMapper();
-            ExchangeRateDate exchangeRateDate = mapper.readValue(body, ExchangeRateDate.class);
-            BigDecimal exchangeRate = exchangeRateDate.rates().get("KRW");
+            //환율 조회
+            BigDecimal exchangeRate = getExchangeRate(currency);
 
             //금액 계산
             BigDecimal convertedAmount = exchangeRate.multiply(amount);
@@ -41,8 +25,10 @@ public class PaymentService {
         }
     }
 
+    protected abstract BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException;
+
     public static void main(String[] args) {
-        PaymentService paymentService = new PaymentService();
+        PaymentService paymentService = new HttpApiPaymentService();
         Payment payment = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
         System.out.println(">>> payment = " + payment);
     }
