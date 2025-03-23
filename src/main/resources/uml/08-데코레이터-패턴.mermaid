@@ -1,0 +1,21 @@
+classDiagram
+    direction LR
+    class PaymentService {
+        + prepare()
+    }
+    class ExchangeRateProvider {
+        <<interface>>
+        + getExchangeRate()
+    }
+    class HttpApiExchangeRateProvider {
+        + getExchangeRate()
+    }
+
+    class CachedExchangeRateProvider {
+        + getExchangeRate()
+    }
+
+    PaymentService ..> ExchangeRateProvider: 사용
+    ExchangeRateProvider <|.. HttpApiExchangeRateProvider
+    ExchangeRateProvider <|.. CachedExchangeRateProvider
+    HttpApiExchangeRateProvider <-- CachedExchangeRateProvider: 참조

@@ -1,4 +1,4 @@
-package com.study.learn_spring;
+package com.study.zerobase;
 
 import java.util.Arrays;
 

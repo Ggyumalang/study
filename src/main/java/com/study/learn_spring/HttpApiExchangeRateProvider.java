@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     @Override
     public BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException {
+        System.out.println(" >>> HttpApiExchangeRateProvider 호출");
         URI uri = new URI("https://open.er-api.com/v6/latest/" + currency);
         URLConnection urlConnection = uri.toURL().openConnection();
         BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));

@@ -1,0 +1,26 @@
+@startuml
+class PaymentService {
+    + prepare()
+}
+
+interface ExchangeRateProvider {
+    + getExchangeRate()
+}
+class CachedExchangeRateProvider {
+    + getExchangeRate()
+}
+note left: 데코레이터(Decorator)
+
+class HttpApiExchangeRateProvider {
+    + getExchangeRate()
+}
+
+PaymentService .r.> ExchangeRateProvider : 사용
+
+ExchangeRateProvider <|.. CachedExchangeRateProvider
+ExchangeRateProvider <|.. HttpApiExchangeRateProvider
+
+HttpApiExchangeRateProvider <-l- CachedExchangeRateProvider: 참조
+
+'PaymentService ..> CachedExchangeRateProvider #red;line.dotted;text:red : 런타임\n의존관계
+@enduml

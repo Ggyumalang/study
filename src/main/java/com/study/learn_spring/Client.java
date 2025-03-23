@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 //관계 설정 책임의 분리
 public class Client {
+
     public static void main(String[] args) {
         // 객체 설정 및 관계 설정
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(PaymentConfig.class);
@@ -16,7 +17,11 @@ public class Client {
 //        PaymentService paymentService = objectFactory.paymentService();
 
         //객체 사용
-        Payment payment = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
-        System.out.println(">>> payment = " + payment);
+        Payment payment1 = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
+        System.out.println(">>> payment1 = " + payment1);
+
+        //객체 사용
+        Payment payment2 = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
+        System.out.println(">>> payment2 = " + payment2);
     }
 }
