@@ -14,7 +14,12 @@ public class PaymentConfig {
 
     @Bean
     public ExchangeRateProvider cachedExchangeRateProvider() {
-        return new CachedExchangeRateProvider(exchangeRateProvider());
+        return new CachedExchangeRateProvider(exchangeRateProvider(), exchangeRateCacheProvider());
+    }
+
+    @Bean
+    public ExchangeRateCacheProvider exchangeRateCacheProvider() {
+        return new InMemoryExchangeRateCacheProvider();
     }
 
     @Bean
