@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
-import java.time.LocalDateTime;
+import java.time.Duration;
 
 @RequiredArgsConstructor
 public class CachedExchangeRateProvider implements ExchangeRateProvider {
@@ -31,7 +31,7 @@ public class CachedExchangeRateProvider implements ExchangeRateProvider {
 
     private BigDecimal getNewExchangeRate(String currency) throws URISyntaxException, IOException {
         BigDecimal exchangeRate = target.getExchangeRate(currency);
-        cacheProvider.setExchangeRate(currency, exchangeRate, LocalDateTime.now().plusSeconds(3));
+        cacheProvider.setExchangeRate(currency, exchangeRate, Duration.ofMinutes(3));
         return exchangeRate;
     }
 }

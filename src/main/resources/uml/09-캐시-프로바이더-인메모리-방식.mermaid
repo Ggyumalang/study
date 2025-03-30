@@ -1,0 +1,15 @@
+flowchart LR
+    subgraph 우리 시스템
+        subgraph 서버 클러스터
+            Server1["서버 1\n(Memory)"]
+            Server2["서버 2\n(Memory)"]
+        end
+        LB([Load Balancer])
+    end
+
+    ExternalApi[[외부 시스템]]
+%% 흐름 정의
+    LB --> Server1
+    LB --> Server2
+    Server1 --> ExternalApi
+    Server2 --> ExternalApi

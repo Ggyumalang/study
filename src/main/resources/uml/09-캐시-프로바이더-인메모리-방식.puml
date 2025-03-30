@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+
+frame "우리 시스템" {
+    circle "Load Balancer" as LB
+
+    frame "서버 클러스터" {
+        card "서버 1" as Server1 {
+            collections "Memory 1"
+        }
+        card "서버 2" as Server2 {
+            collections "Memory 2"
+        }
+    }
+}
+
+cloud "외부 시스템" as ExternalApi
+
+LB --> Server1
+LB --> Server2
+
+Server1 ---> ExternalApi
+Server2 ---> ExternalApi
+@enduml

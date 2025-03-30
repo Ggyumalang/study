@@ -3,6 +3,7 @@ package com.study.learn_spring;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +32,9 @@ public class InMemoryExchangeRateCacheProvider implements ExchangeRateCacheProvi
     }
 
     @Override
-    public void setExchangeRate(String currency, BigDecimal exchangeRate, LocalDateTime expiryTime) {
+    public void setExchangeRate(String currency, BigDecimal exchangeRate, Duration expiryTime) {
         CACHED_EXCHANGE_RATES.put(currency, exchangeRate);
-        CACHED_EXPIRY_TIMES.put(currency, expiryTime);
+        CACHED_EXPIRY_TIMES.put(currency, LocalDateTime.now().plusSeconds(expiryTime.getSeconds()));
     }
 
     private static BigDecimal getCachedExchangeRate(String currency) {
