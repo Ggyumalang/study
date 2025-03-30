@@ -1,0 +1,21 @@
+@startuml
+package "Presentation Layer" {
+    class OrderController
+}
+package "Application Layer" {
+    class OrderService
+}
+package "Domain Layer" {
+    class Order
+}
+package "Infrastructure Layer" {
+    interface OrderRepository
+    class OrderJpaRepository
+}
+
+OrderController .r.> OrderService
+OrderService .d.> Order
+OrderService ..> OrderRepository
+OrderRepository .u.> Order
+OrderRepository <|.. OrderJpaRepository
+@enduml
