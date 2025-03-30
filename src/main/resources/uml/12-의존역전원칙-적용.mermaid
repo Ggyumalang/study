@@ -1,0 +1,26 @@
+classDiagram
+    direction LR
+
+    namespace payment {
+        class PaymentService {
+            + prepare()
+        }
+
+        class ExchangeRateProvider {
+            <<interface>>
+            + getExchangeRate()
+        }
+    }
+
+    namespace exchangerate {
+        class HttpApiExchangeRateProvider {
+            + getExchangeRate()
+        }
+
+        class ExchangeRateData {
+        }
+    }
+
+    PaymentService ..> ExchangeRateProvider: 사용
+    ExchangeRateProvider <|.. HttpApiExchangeRateProvider: 구현
+    HttpApiExchangeRateProvider ..> ExchangeRateData

@@ -1,6 +1,5 @@
 package com.study.learn_spring.payment;
 
-import com.study.learn_spring.exchangerate.ExchangeRateProvider;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;

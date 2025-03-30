@@ -1,6 +1,7 @@
 package com.study.learn_spring.exchangerate;
 
 import com.study.learn_spring.exchangerate.cache.ExchangeRateCacheProvider;
+import com.study.learn_spring.payment.ExchangeRateProvider;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
