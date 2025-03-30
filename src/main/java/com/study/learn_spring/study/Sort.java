@@ -1,4 +1,4 @@
-package com.study.learn_spring;
+package com.study.learn_spring.study;
 
 import java.util.Arrays;
 import java.util.Collections;

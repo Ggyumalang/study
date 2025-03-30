@@ -1,4 +1,4 @@
-package com.study.learn_spring;
+package com.study.learn_spring.exchangerate.cache;
 
 import java.io.IOException;
 import java.math.BigDecimal;

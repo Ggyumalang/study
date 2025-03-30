@@ -1,0 +1,24 @@
+@startuml
+package payment {
+    class PaymentService {
+        + prepare()
+    }
+}
+
+package exchangerate {
+    interface ExchangeRateProvider {
+        + getExchangeRate()
+    }
+
+    class HttpApiExchangeRateProvider {
+        + getExchangeRate()
+    }
+
+    class ExchangeRateData {
+    }
+}
+
+PaymentService ..> ExchangeRateProvider : 사용
+ExchangeRateProvider <|.. HttpApiExchangeRateProvider : 구현
+HttpApiExchangeRateProvider .r.> ExchangeRateData
+@enduml

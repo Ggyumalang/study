@@ -1,5 +1,11 @@
 package com.study.learn_spring;
 
+import com.study.learn_spring.exchangerate.CachedExchangeRateProvider;
+import com.study.learn_spring.exchangerate.ExchangeRateProvider;
+import com.study.learn_spring.exchangerate.HttpApiExchangeRateProvider;
+import com.study.learn_spring.exchangerate.cache.ExchangeRateCacheProvider;
+import com.study.learn_spring.exchangerate.cache.InMemoryExchangeRateCacheProvider;
+import com.study.learn_spring.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,4 +1,4 @@
-package com.study.learn_spring;
+package com.study.learn_spring.payment;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

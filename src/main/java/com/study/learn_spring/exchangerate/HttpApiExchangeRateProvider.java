@@ -1,4 +1,4 @@
-package com.study.learn_spring;
+package com.study.learn_spring.exchangerate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,7 +23,7 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         //문자열 (바이트배열) -> 객체로 변환 -> 디시리얼라이즈 (디시리얼라이저)
         //객체 -> 문자열로 변환 -> 시리얼라이즈 (시리얼라이저)
         ObjectMapper mapper = new ObjectMapper();
-        ExchangeRateDate exchangeRateDate = mapper.readValue(body, ExchangeRateDate.class);
-        return exchangeRateDate.rates().get("KRW");
+        ExchangeRateData exchangeRateData = mapper.readValue(body, ExchangeRateData.class);
+        return exchangeRateData.rates().get("KRW");
     }
 }
