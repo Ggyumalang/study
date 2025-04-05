@@ -10,7 +10,11 @@ import java.util.List;
 // ex) 정렬 진행 중 정렬 기준을 변경한다.
 public class Sort {
     public static void main(String[] args) {
-        List<String> list = Arrays.asList("b", "dddd", "aaa", "cc");
+        sortByLength(Arrays.asList("b", "dddd", "aaa", "cc"));
+    }
+
+    public static List<String> sortByLength(List<String> list) {
+
         Collections.sort(list, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
@@ -18,6 +22,6 @@ public class Sort {
             }
         });
 
-        list.forEach(System.out::println);
+        return list;
     }
 }
