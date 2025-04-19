@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+
+node "테스트 대상(SUT)" {
+    [테스트 대상 01] #palegreen
+    [협력자 A] #lightblue
+    [협력자 B] #lightblue
+}
+"테스트 01" --> [테스트 대상 01]
+[테스트 대상 01] --> [협력자 A]
+[테스트 대상 01] --> [협력자 B]
+
+node "테스트 대상(SUT)" {
+    [테스트 대상 02] #pink
+
+    frame "외부 라이브러리" #orange {
+        [협력자 C]
+    }
+}
+cloud "네트워크" #orange {
+    [협력자 D]
+}
+database "DB" #orange {
+    [협력자 E]
+}
+
+"테스트 02" --> [테스트 대상 02]
+[테스트 대상 02] ..> [협력자 C]
+[테스트 대상 02] ..> [협력자 D]
+[테스트 대상 02] ..> [협력자 E]
+@enduml

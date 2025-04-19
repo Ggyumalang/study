@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+node "테스트 대상(SUT)" {
+    [PaymentService] #palegreen
+    [HttpApiExchangeRateProvider]
+}
+cloud "네트워크" #orange {
+    [open.er-api.com API 서버]
+}
+
+"테스트" --> [PaymentService]
+[PaymentService] --> [HttpApiExchangeRateProvider]
+[HttpApiExchangeRateProvider] ...> [open.er-api.com API 서버]
+@enduml
