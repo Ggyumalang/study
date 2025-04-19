@@ -1,22 +1,28 @@
 package com.study.learn_spring.payment;
 
-import com.study.learn_spring.exchangerate.StubExchangeRateProvider;
+import com.study.learn_spring.TestPaymentConfig;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// 수동 DI 테스트
-class PaymentServiceTest {
+// Spring DI 테스트
+// 이 테스트는 Spring 기능을 사용할거야
+//@ExtendWith(SpringExtension.class)
+//@ContextConfiguration(classes = PaymentConfig.class)
+@SpringJUnitConfig(TestPaymentConfig.class)
+public class PaymentServiceSpringTest {
+    @Autowired
+    PaymentService paymentService;
 
     @Test
     void prepare() {
         //given - 수행 준비
         BigDecimal exchangeRateVal = BigDecimal.valueOf(1000);
-        ExchangeRateProvider exchangeRateProvider = new StubExchangeRateProvider(exchangeRateVal);
-        PaymentService paymentService = new PaymentService(exchangeRateProvider);
         BigDecimal amount = BigDecimal.valueOf(50.7);
 
         //when - 실제 기능 수행

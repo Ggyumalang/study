@@ -2,7 +2,7 @@ package com.study.learn_spring;
 
 import com.study.learn_spring.payment.Payment;
 import com.study.learn_spring.payment.PaymentService;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
@@ -12,8 +12,8 @@ public class Client {
 
     public static void main(String[] args) throws InterruptedException {
         // 객체 설정 및 관계 설정
-        BeanFactory beanFactory = new AnnotationConfigApplicationContext(PaymentConfig.class);
-        PaymentService paymentService = beanFactory.getBean(PaymentService.class);
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(PaymentConfig.class);
+        PaymentService paymentService = applicationContext.getBean(PaymentService.class);
 //
 //        ObjectFactory objectFactory = new ObjectFactory();
 //        PaymentService paymentService = objectFactory.paymentService();
