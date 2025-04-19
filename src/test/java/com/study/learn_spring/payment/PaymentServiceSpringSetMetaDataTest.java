@@ -1,9 +1,11 @@
 package com.study.learn_spring.payment;
 
 import com.study.learn_spring.TestPaymentConfig;
+import com.study.learn_spring.exchangerate.StubExchangeRateProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.IOException;
@@ -12,29 +14,32 @@ import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 
 // Spring DI 테스트
 // 이 테스트는 Spring 기능을 사용할거야
 //@ExtendWith(SpringExtension.class)
 //@ContextConfiguration(classes = PaymentConfig.class)
-@SpringJUnitConfig(TestPaymentConfig.class)
-public class PaymentServiceSpringMockTest {
+// 뒤에 설정이 앞에 설정을 엎어칠 수 있음.
+@SpringJUnitConfig({TestPaymentConfig.class, PaymentServiceSpringSetMetaDataTest.TestPaymentConfig.class})
+public class PaymentServiceSpringSetMetaDataTest {
 
-    @MockitoBean
-    ExchangeRateProvider exchangeRateProvider;
-
+    private static final BigDecimal EXCHANGE_RATE = BigDecimal.valueOf(1500);
     @Autowired
     PaymentService paymentService;
+
+    @TestConfiguration
+    static class TestPaymentConfig {
+        @Bean
+        public ExchangeRateProvider exchangeRateProvider() {
+            return new StubExchangeRateProvider(EXCHANGE_RATE);
+        }
+    }
 
     @Test
     void prepare() throws URISyntaxException, IOException {
         //given - 수행 준비
-        BigDecimal exchangeRateVal = BigDecimal.valueOf(1500);
+        BigDecimal exchangeRateVal = EXCHANGE_RATE;
         BigDecimal amount = BigDecimal.valueOf(50.7);
-        //메서드 모킹
-        given(exchangeRateProvider.getExchangeRate(any())).willReturn(exchangeRateVal);
 
         //when - 실제 기능 수행
         Payment payment = paymentService.prepare(100L, "USD", amount);
