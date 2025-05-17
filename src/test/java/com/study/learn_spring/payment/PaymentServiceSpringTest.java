@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,6 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PaymentServiceSpringTest {
     @Autowired
     PaymentService paymentService;
+
+    @Autowired
+    Clock clock;
 
     @Test
     void prepare() {
@@ -46,6 +50,6 @@ public class PaymentServiceSpringTest {
 
         // 마이크로 초 차이로 실패
 //        assertThat(validUntil).isEqualTo(LocalDateTime.now().plusMinutes(30L));
-        assertThat(validUntil).isAfter(LocalDateTime.now()).isBefore(LocalDateTime.now().plusMinutes(30L));
+        assertThat(validUntil).isAfter(LocalDateTime.now(clock)).isBefore(LocalDateTime.now().plusMinutes(30L));
     }
 }

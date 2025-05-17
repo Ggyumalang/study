@@ -9,13 +9,15 @@ import com.study.learn_spring.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Clock;
+
 @Configuration
 // 객체 생성 기능 클래스 = 객체 생성 + 관계 설정
 public class PaymentConfig {
 
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(cachedExchangeRateProvider());
+        return new PaymentService(cachedExchangeRateProvider(), clock());
     }
 
     @Bean
@@ -31,5 +33,10 @@ public class PaymentConfig {
     @Bean
     public ExchangeRateProvider exchangeRateProvider() {
         return new HttpApiExchangeRateProvider();
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,6 +28,9 @@ public class PaymentServiceSpringMockTest {
 
     @Autowired
     PaymentService paymentService;
+
+    @Autowired
+    Clock clock;
 
     @Test
     void prepare() throws URISyntaxException, IOException {
@@ -57,6 +61,6 @@ public class PaymentServiceSpringMockTest {
 
         // 마이크로 초 차이로 실패
 //        assertThat(validUntil).isEqualTo(LocalDateTime.now().plusMinutes(30L));
-        assertThat(validUntil).isAfter(LocalDateTime.now()).isBefore(LocalDateTime.now().plusMinutes(30L));
+        assertThat(validUntil).isAfter(LocalDateTime.now(clock)).isBefore(LocalDateTime.now().plusMinutes(30L));
     }
 }
