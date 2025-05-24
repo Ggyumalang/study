@@ -21,7 +21,7 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         //1. URI 준비
         URI uri;
         try {
-            uri = new URI("https://open.er-api.com/v6/latest/" + currency);
+            uri = prepareUri(currency);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -29,10 +29,7 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         //2. API 호출 & 응답 저장
         String body;
         try {
-            URLConnection urlConnection = uri.toURL().openConnection();
-            try (BufferedReader buff = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
-                body = buff.lines().collect(Collectors.joining());
-            }
+            body = executeApi(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,12 +38,29 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         //객체 -> 문자열로 변환 -> 시리얼라이즈 (시리얼라이저)
         //3. Json 파싱 & 환율 추출
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            ExchangeRateData exchangeRateData = mapper.readValue(body, ExchangeRateData.class);
-            return exchangeRateData.rates().get("KRW");
+            return extractExchangeRate(body);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private static URI prepareUri(String currency) throws URISyntaxException {
+        return new URI("https://open.er-api.com/v6/latest/" + currency);
+    }
+
+    private static String executeApi(URI uri) throws IOException {
+        String body;
+        URLConnection urlConnection = uri.toURL().openConnection();
+        try (BufferedReader buff = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
+            body = buff.lines().collect(Collectors.joining());
+        }
+        return body;
+    }
+
+    private static BigDecimal extractExchangeRate(String body) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ExchangeRateData exchangeRateData = mapper.readValue(body, ExchangeRateData.class);
+        return exchangeRateData.rates().get("KRW");
     }
 }
