@@ -1,8 +1,6 @@
 package com.study.learn_spring.exchangerate.cache;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +11,7 @@ public class InMemoryExchangeRateCacheProvider implements ExchangeRateCacheProvi
     private static final Map<String, LocalDateTime> CACHED_EXPIRY_TIMES = new HashMap<>();
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException {
+    public BigDecimal getExchangeRate(String currency) {
         BigDecimal exchangeRate = getCachedExchangeRate(currency);
         if (isCachedDataEmpty(exchangeRate)) {
             return null;

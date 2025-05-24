@@ -1,5 +1,6 @@
 package com.study.learn_spring.exchangerate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.learn_spring.payment.ExchangeRateProvider;
 
@@ -14,17 +15,38 @@ import java.util.stream.Collectors;
 
 public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     @Override
-    public BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException {
+    public BigDecimal getExchangeRate(String currency) {
         System.out.println(" >>> HttpApiExchangeRateProvider 호출");
-        URI uri = new URI("https://open.er-api.com/v6/latest/" + currency);
-        URLConnection urlConnection = uri.toURL().openConnection();
-        BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-        String body = br.lines().collect(Collectors.joining());
+
+        //1. URI 준비
+        URI uri;
+        try {
+            uri = new URI("https://open.er-api.com/v6/latest/" + currency);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        //2. API 호출 & 응답 저장
+        String body;
+        try {
+            URLConnection urlConnection = uri.toURL().openConnection();
+            try (BufferedReader buff = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
+                body = buff.lines().collect(Collectors.joining());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         //문자열 (바이트배열) -> 객체로 변환 -> 디시리얼라이즈 (디시리얼라이저)
         //객체 -> 문자열로 변환 -> 시리얼라이즈 (시리얼라이저)
-        ObjectMapper mapper = new ObjectMapper();
-        ExchangeRateData exchangeRateData = mapper.readValue(body, ExchangeRateData.class);
-        return exchangeRateData.rates().get("KRW");
+        //3. Json 파싱 & 환율 추출
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ExchangeRateData exchangeRateData = mapper.readValue(body, ExchangeRateData.class);
+            return exchangeRateData.rates().get("KRW");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

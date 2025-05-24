@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -33,7 +31,7 @@ public class PaymentServiceSpringMockTest {
     Clock clock;
 
     @Test
-    void prepare() throws URISyntaxException, IOException {
+    void prepare() {
         //given - 수행 준비
         BigDecimal exchangeRateVal = BigDecimal.valueOf(1500);
         BigDecimal amount = BigDecimal.valueOf(50.7);

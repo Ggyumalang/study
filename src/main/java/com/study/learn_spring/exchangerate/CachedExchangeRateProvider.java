@@ -4,9 +4,7 @@ import com.study.learn_spring.exchangerate.cache.ExchangeRateCacheProvider;
 import com.study.learn_spring.payment.ExchangeRateProvider;
 import lombok.RequiredArgsConstructor;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class CachedExchangeRateProvider implements ExchangeRateProvider {
     private final ExchangeRateCacheProvider cacheProvider;
 
     @Override
-    public BigDecimal getExchangeRate(String currency) throws URISyntaxException, IOException {
+    public BigDecimal getExchangeRate(String currency) {
         BigDecimal cachedExchangeRate = cacheProvider.getExchangeRate(currency);
         if (isCachedDataEmpty(cachedExchangeRate)) {
             return getNewExchangeRate(currency);
@@ -31,7 +29,7 @@ public class CachedExchangeRateProvider implements ExchangeRateProvider {
         return exchangeRate == null;
     }
 
-    private BigDecimal getNewExchangeRate(String currency) throws URISyntaxException, IOException {
+    private BigDecimal getNewExchangeRate(String currency) {
         BigDecimal exchangeRate = target.getExchangeRate(currency);
         cacheProvider.setExchangeRate(currency, exchangeRate, LocalDateTime.now().plusSeconds(3));
         return exchangeRate;

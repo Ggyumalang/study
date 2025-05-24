@@ -8,9 +8,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -40,7 +38,7 @@ public class PaymentServiceSpringSetMetaDataTest {
     }
 
     @Test
-    void prepare() throws URISyntaxException, IOException {
+    void prepare() {
         //given - 수행 준비
         BigDecimal exchangeRateVal = EXCHANGE_RATE;
         BigDecimal amount = BigDecimal.valueOf(50.7);
