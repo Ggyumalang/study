@@ -1,9 +1,9 @@
 package com.study.learn_spring.exchangerate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.study.learn_spring.exchangerate.apiexecutor.ApiExecutor;
 import com.study.learn_spring.exchangerate.apiexecutor.LegacyApiExecutor;
+import com.study.learn_spring.exchangerate.extractor.ErApiExchangeRateExtractor;
+import com.study.learn_spring.exchangerate.extractor.ExchangeRateExtractor;
 import com.study.learn_spring.payment.ExchangeRateProvider;
 
 import java.io.IOException;
@@ -16,11 +16,19 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     public BigDecimal getExchangeRate(String currency) {
         System.out.println(" >>> HttpApiExchangeRateProvider 호출");
 
-        return runApiAndGetExchangeRate(currency, new LegacyApiExecutor());
+        return runApiAndGetExchangeRate(
+                currency
+                , new LegacyApiExecutor()
+                , new ErApiExchangeRateExtractor()
+        );
 
     }
 
-    private static BigDecimal runApiAndGetExchangeRate(String currency, ApiExecutor apiExecutor) {
+    private static BigDecimal runApiAndGetExchangeRate(
+            String currency
+            , ApiExecutor apiExecutor
+            , ExchangeRateExtractor exchangeRateExtractor
+    ) {
         //1. URI 준비
         URI uri;
         try {
@@ -41,19 +49,13 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         //객체 -> 문자열로 변환 -> 시리얼라이즈 (시리얼라이저)
         //3. Json 파싱 & 환율 추출
         try {
-            return extractExchangeRate(body);
-        } catch (JsonProcessingException e) {
+            return exchangeRateExtractor.extract(body);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private static URI prepareUri(String currency) throws URISyntaxException {
         return new URI("https://open.er-api.com/v6/latest/" + currency);
-    }
-
-    private static BigDecimal extractExchangeRate(String body) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        ExchangeRateData exchangeRateData = mapper.readValue(body, ExchangeRateData.class);
-        return exchangeRateData.rates().get("KRW");
     }
 }
