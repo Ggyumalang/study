@@ -4,6 +4,7 @@ import com.study.learn_spring.exchangerate.CachedExchangeRateProvider;
 import com.study.learn_spring.exchangerate.HttpApiExchangeRateProvider;
 import com.study.learn_spring.exchangerate.cache.ExchangeRateCacheProvider;
 import com.study.learn_spring.exchangerate.cache.InMemoryExchangeRateCacheProvider;
+import com.study.learn_spring.exchangerate.template.ExchangeRateApiTemplate;
 import com.study.learn_spring.payment.ExchangeRateProvider;
 import com.study.learn_spring.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
@@ -32,11 +33,16 @@ public class PaymentConfig {
 
     @Bean
     public ExchangeRateProvider exchangeRateProvider() {
-        return new HttpApiExchangeRateProvider();
+        return new HttpApiExchangeRateProvider(exchangeRateApiTemplate());
     }
 
     @Bean
     public Clock clock() {
         return Clock.systemDefaultZone();
+    }
+
+    @Bean
+    public ExchangeRateApiTemplate exchangeRateApiTemplate() {
+        return new ExchangeRateApiTemplate();
     }
 }
