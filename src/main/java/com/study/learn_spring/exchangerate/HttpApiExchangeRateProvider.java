@@ -2,16 +2,13 @@ package com.study.learn_spring.exchangerate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.study.learn_spring.exchangerate.apiexecutor.LegacyApiExecutor;
 import com.study.learn_spring.payment.ExchangeRateProvider;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLConnection;
-import java.util.stream.Collectors;
 
 public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     @Override
@@ -50,12 +47,7 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     }
 
     private static String executeApi(URI uri) throws IOException {
-        String body;
-        URLConnection urlConnection = uri.toURL().openConnection();
-        try (BufferedReader buff = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
-            body = buff.lines().collect(Collectors.joining());
-        }
-        return body;
+        return new LegacyApiExecutor().execute(uri);
     }
 
     private static BigDecimal extractExchangeRate(String body) throws JsonProcessingException {
