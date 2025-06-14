@@ -2,6 +2,7 @@ package com.study.learn_spring.exchangerate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.study.learn_spring.exchangerate.apiexecutor.ApiExecutor;
 import com.study.learn_spring.exchangerate.apiexecutor.LegacyApiExecutor;
 import com.study.learn_spring.payment.ExchangeRateProvider;
 
@@ -15,6 +16,11 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
     public BigDecimal getExchangeRate(String currency) {
         System.out.println(" >>> HttpApiExchangeRateProvider 호출");
 
+        return runApiAndGetExchangeRate(currency, new LegacyApiExecutor());
+
+    }
+
+    private static BigDecimal runApiAndGetExchangeRate(String currency, ApiExecutor apiExecutor) {
         //1. URI 준비
         URI uri;
         try {
@@ -26,7 +32,7 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         //2. API 호출 & 응답 저장
         String body;
         try {
-            body = executeApi(uri);
+            body = apiExecutor.execute(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -39,15 +45,10 @@ public class HttpApiExchangeRateProvider implements ExchangeRateProvider {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private static URI prepareUri(String currency) throws URISyntaxException {
         return new URI("https://open.er-api.com/v6/latest/" + currency);
-    }
-
-    private static String executeApi(URI uri) throws IOException {
-        return new LegacyApiExecutor().execute(uri);
     }
 
     private static BigDecimal extractExchangeRate(String body) throws JsonProcessingException {
