@@ -1,0 +1,14 @@
+graph TD
+    Order["Order"]:::pink
+    OrderRepository["OrderRepository"]:::gray
+    EntityManager["EntityManager"]:::pink
+    EntityManagerFactory["EntityManagerFactory"]:::gray
+    JDBC["JDBC"]:::gray
+    DataSource["DataSource"]:::gray
+    DB[("DB")]:::gray
+    Order --- OrderRepository
+    OrderRepository --> EntityManager
+    EntityManagerFactory -->|생성| EntityManager
+    EntityManager --> DataSource
+    JDBC --> DataSource
+    DataSource --> DB

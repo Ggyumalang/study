@@ -1,0 +1,17 @@
+@startuml
+[Order] #pink
+[OrderRepository] #lightgray
+[EntityManager] #pink
+[EntityManagerFactory] #lightgray
+[JDBC] #lightgray
+[DataSource] #lightgray
+database "DB" #lightgray {
+}
+
+[Order] .. [OrderRepository]
+[OrderRepository] --> [EntityManager]
+[EntityManagerFactory] -r-> [EntityManager]: 생성
+[EntityManager] --> [DataSource]
+[JDBC] -r-> [DataSource]
+[DataSource] -r-> "DB"
+@enduml
