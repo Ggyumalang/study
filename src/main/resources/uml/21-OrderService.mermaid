@@ -1,0 +1,20 @@
+classDiagram
+    direction LR
+
+    namespace PresentationLayer {
+        class OrderController
+    }
+
+    namespace ApplicationLayer {
+        class OrderService
+        class Order
+    }
+
+    namespace InfrastructureLayer {
+        class OrderRepository
+    }
+
+    OrderController ..> OrderService
+    OrderService ..> Order
+    OrderService ..> OrderRepository
+    OrderRepository ..> Order

@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+
+class OrderClient
+package "Application Layer" {
+    class OrderService
+    class Order
+    interface OrderRepository
+}
+package "Infrastructure Layer" {
+    class OrderJpaRepository
+}
+
+OrderClient ..> OrderService
+OrderService ..> Order
+OrderService ..> OrderRepository
+OrderRepository ..> Order
+OrderRepository <|.l. OrderJpaRepository
+@enduml

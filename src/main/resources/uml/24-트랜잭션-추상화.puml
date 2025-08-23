@@ -1,0 +1,15 @@
+@startuml
+[클라이언트] #lightgray
+[<<interface>>\nPlatformTransactionManager] as PlatformTransactionManager #pink
+[JpaTransactionManager] #pink
+[DataSourceTransactionManager] #pink
+[JPA Transaction]
+[JDBC Transaction]
+
+[클라이언트] .r.> [PlatformTransactionManager]
+[PlatformTransactionManager] <|.. [JpaTransactionManager]
+[PlatformTransactionManager] <|.. [DataSourceTransactionManager]
+
+JpaTransactionManager ..> [JPA Transaction]
+DataSourceTransactionManager ..> [JDBC Transaction]
+@enduml

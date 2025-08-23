@@ -1,0 +1,28 @@
+classDiagram
+    direction LR
+
+    namespace PresentationLayer {
+        class OrderController
+    }
+
+    namespace ApplicationLayer {
+        class OrderService
+        class Order
+        class OrderRepository {
+            <<interface>>
+        }
+    }
+
+    namespace InfrastructureLayer {
+        class OrderEntity
+        class OrderJpaRepository
+    }
+
+    OrderController ..> OrderService
+    OrderService ..> Order
+    OrderService ..> OrderRepository
+    OrderRepository ..> Order
+    OrderRepository <|.. OrderJpaRepository
+    OrderJpaRepository ..> Order
+    OrderJpaRepository ..> OrderEntity
+    OrderEntity ..> Order

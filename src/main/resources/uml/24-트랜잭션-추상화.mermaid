@@ -1,0 +1,17 @@
+classDiagram
+    direction TB
+
+    class 클라이언트
+    class PlatformTransactionManager {
+        <<interface>>
+    }
+    class JpaTransactionManager
+    class DataSourceTransactionManager
+    class JPA_Transaction
+    class JDBC_Transaction
+
+    클라이언트 ..> PlatformTransactionManager
+    PlatformTransactionManager <|.. JpaTransactionManager
+    PlatformTransactionManager <|.. DataSourceTransactionManager
+    JpaTransactionManager ..> JPA_Transaction
+    DataSourceTransactionManager ..> JDBC_Transaction
