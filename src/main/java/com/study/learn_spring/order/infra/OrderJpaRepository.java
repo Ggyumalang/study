@@ -5,6 +5,8 @@ import com.study.learn_spring.order.application.OrderRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.util.Optional;
+
 public class OrderJpaRepository implements OrderRepository {
 
     //EntityManagerFactory : Thread-safe O -> 스프링 빈으로 등록하기 적합
@@ -21,5 +23,10 @@ public class OrderJpaRepository implements OrderRepository {
 
         // orderEntity -> order 객체 변환
         return orderEntity.toDomain();
+    }
+
+    @Override
+    public Optional<Order> findByOrderNo(String orderNo) {
+        return Optional.empty();
     }
 }

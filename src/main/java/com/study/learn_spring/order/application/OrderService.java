@@ -1,20 +1,12 @@
 package com.study.learn_spring.order.application;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
+import com.study.learn_spring.order.infra.OrderRequest;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-@RequiredArgsConstructor
-public class OrderService {
+public interface OrderService {
+    Order createOrder(String no, BigDecimal total);
 
-    private final OrderRepository orderRepository;
-    private final PlatformTransactionManager txManager;
-
-    //@Transactional //PSA + AOP
-    public Order createOrder(String no, BigDecimal total) {
-        Order order = new Order(no, total);
-        return new TransactionTemplate(txManager).execute(status -> orderRepository.save(order));
-    }
+    List<Order> createOrders(List<OrderRequest> requests);
 }

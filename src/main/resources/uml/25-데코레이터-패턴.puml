@@ -1,0 +1,24 @@
+@startuml
+interface Component {
+    + operation()
+}
+class ConcreteComponent {
+    + operation()
+}
+abstract Decorator #pink {
+    - component: Component
+    + operation()
+}
+class ConcreteDecorator #pink {
+    + operation()
+}
+'class OtherConcreteDecorator #lightgreen {
+'    + operation()
+'}
+
+Component <|... ConcreteComponent
+Component <|.. Decorator
+Decorator ---> Component #red
+Decorator <|--- ConcreteDecorator
+'Decorator <|--- OtherConcreteDecorator
+@enduml

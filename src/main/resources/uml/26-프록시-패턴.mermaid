@@ -1,0 +1,18 @@
+classDiagram
+    direction TB
+
+    class Subject {
+        <<interface>>
+        +operation()
+    }
+    class RealSubject {
+        +operation()
+    }
+    class Proxy {
+        -subject: Subject
+        +operation()
+    }
+
+    Subject <|.. RealSubject
+    Subject <|.. Proxy
+    RealSubject <-- Proxy

@@ -34,4 +34,8 @@ public class Order {
         this.no = no;
         this.total = total;
     }
+
+    public Order with(Long id) {
+        return new Order(id, getNo(), getTotal());
+    }
 }

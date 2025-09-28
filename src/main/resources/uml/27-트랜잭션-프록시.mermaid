@@ -1,0 +1,18 @@
+classDiagram
+    direction TB
+
+    class OrderService {
+        <<interface>>
+        +createOrder()
+    }
+    class OrderServiceImpl {
+        +createOrder()
+    }
+    class OrderServiceTxProxy {
+        -target: OrderService
+        +createOrder()
+    }
+
+    OrderService <|.. OrderServiceImpl
+    OrderService <|.. OrderServiceTxProxy
+    OrderServiceImpl <-- OrderServiceTxProxy

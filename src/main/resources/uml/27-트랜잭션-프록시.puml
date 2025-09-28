@@ -1,0 +1,16 @@
+@startuml
+interface OrderService {
+    +createOrder()
+}
+class OrderServiceImpl {
+    +createOrder()
+}
+class OrderServiceTxProxy #pink {
+    -target:OrderService
+    +createOrder()
+}
+
+OrderService <|.. OrderServiceImpl
+OrderService <|.. OrderServiceTxProxy
+OrderServiceImpl <-r- OrderServiceTxProxy #red
+@enduml

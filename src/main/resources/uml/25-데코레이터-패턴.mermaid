@@ -1,0 +1,27 @@
+classDiagram
+    direction TB
+
+    class Component {
+        <<interface>>
+        +operation()
+    }
+    class ConcreteComponent {
+        +operation()
+    }
+
+    class Decorator {
+        <<abstract>>
+        -component: Component
+        +operation()
+    }
+    class ConcreteDecorator {
+        + operation()
+    }
+%%  class OtherConcreteDecorator {
+%%    + operation()
+%%  }
+    Component <|.. ConcreteComponent
+    Component <|.. Decorator
+    Decorator --> Component
+    Decorator <|-- ConcreteDecorator
+%%  Decorator <|-- OtherConcreteDecorator
